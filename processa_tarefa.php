@@ -1,7 +1,8 @@
 <?php
 session_start();
-gravar_tarefa($conexao, $tarefa);
+
 include 'banco.php';
+include 'helpers.php';
 
 if (isset($_GET['nome']) && $_GET['nome'] != '') {
   $tarefa = array();
@@ -13,18 +14,19 @@ if (isset($_GET['nome']) && $_GET['nome'] != '') {
     $tarefa['descricao'] = '';
   }
   if (isset($_GET['prazo'])) {
-    $tarefa['prazo'] = $_GET['prazo'];
+    $tarefa['prazo'] = traduz_data_para_banco($_GET['prazo']);
   } else {
     $tarefa['prazo'] = '';
   }
   $tarefa['prioridade'] = $_GET['prioridade'];
-  if (isset($_GET['concluida'])) {
-    $tarefa['concluida'] = $_GET['concluida'];
-  } else {
-    $tarefa['concluida'] = '';
-  }
 
-  // Insira a tarefa no banco de dados aqui (você precisará criar uma função para fazer isso)
+
+  if (isset($_GET['concluida'])) {
+    $tarefa['concluida'] = 1;
+  } else {
+    $tarefa['concluida'] = 0;
+  }
+  gravar_tarefas($conexao, $tarefa);
 }
 
 header('Location: index.php');

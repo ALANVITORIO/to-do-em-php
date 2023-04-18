@@ -1,6 +1,9 @@
 <!DOCTYPE html>
+
 <?php session_start();
 include 'banco.php';
+include 'helpers.php';
+
 $lista_tarefas = buscar_tarefas($conexao);
 ?>
 <html lang="en">
@@ -30,14 +33,14 @@ $lista_tarefas = buscar_tarefas($conexao);
     <fieldset>
       <legend>Prioridade</legend>
       <label>
-        <input type="radio" name="prioridade" value="1">Baixa
+        <input type="radio" name="prioridade" value="1" checked>Baixa
         <input type="radio" name="prioridade" value="2">Média
         <input type="radio" name="prioridade" value="3">Alta
       </label>
     </fieldset>
     <p> Tarefa concluída :</p>
     <label>
-      <input type="checkbox" name="concluida" value="sim">
+      <input type="checkbox" name="concluida" value="1">
     </label>
     <input type="submit" value="Cadastrar">
   </form>
@@ -49,19 +52,26 @@ $lista_tarefas = buscar_tarefas($conexao);
       <th>Prazo</th>
       <th>Prioridade</th>
       <th>Concluída</th>
+      <th>Opções</th>
     </tr>
     <?php
-    if (isset($lista_tarefas)) {
-      foreach ($lista_tarefas as $tarefa) : ?>
-        <tr>
-          <td><?php echo $tarefa['nome']; ?></td>
-          <td><?php echo $tarefa['descricao']; ?></td>
-          <td><?php echo $tarefa['prazo']; ?></td>
-          <td><?php echo $tarefa['prioridade']; ?></td>
-          <td><?php echo $tarefa['concluida']; ?></td>
-        </tr>
-    <?php endforeach;
-    } ?>
+
+    foreach ($lista_tarefas as $tarefa) : ?>
+      <tr>
+        <td><?php echo $tarefa['nome']; ?></td>
+        <td><?php echo $tarefa['descricao']; ?></td>
+        <td><?php echo traduz_data_exibir($tarefa['prazo']); ?></td>
+        <td><?php echo traduz_prioridade($tarefa['prioridade']); ?></td>
+        <td><?php echo traduz_concluida($tarefa['concluida']); ?></td>
+        <td>
+          <a href="editar.php?id=<?php echo $tarefa['id']; ?>">Editar</a>
+          <a href="remover.php?id=<?php echo $tarefa['id']; ?>">Remover</a>
+        </td>
+      </tr>
+
+
+
+    <?php endforeach; ?>
   </table>
 </body>
 
