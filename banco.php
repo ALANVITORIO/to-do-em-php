@@ -9,8 +9,32 @@ if (mysqli_connect_errno()) {
   echo "Problemas para conectar no banco. Verifique os dados!";
   die();
 }
-function buscar_tarefas($conexao)
+
+
+function buscar_tarefa($conexao)
 {
+  $sqlBusca = 'SELECT * FROM tarefas';
+  $resultado = mysqli_query($conexao, $sqlBusca);
+  $tarefas = array();
+  while ($tarefa = mysqli_fetch_assoc($resultado)) {
+    $tarefas[] = $tarefa;
+  }
+  return $tarefas;
+}
+
+function editar_tarefa($conexao, $tarefa)
+{
+  $sqlEditar = "
+    UPDATE tarefas SET
+    nome = '{$tarefa['nome']}',
+    descricao = '{$tarefa['descricao']}',
+    prazo = '{$tarefa['prazo']}',
+    prioridade = '{$tarefa['prioridade']}',
+    concluida = '{$tarefa['concluida']}'
+    WHERE id = {$tarefa['id']}
+  ";
+  mysqli_query($conexao, $sqlEditar);
+} {
   $sqlBusca = 'SELECT * FROM tarefa';
   $resultado = mysqli_query($conexao, $sqlBusca);
   $tarefas = array();

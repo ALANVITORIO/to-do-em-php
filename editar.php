@@ -1,19 +1,11 @@
 <?php
 
-$tarefa = array(
-  'id' => 0,
-  'nome' => '',
-  'descricao' => '',
-  'prazo' => '',
-  'prioridade' => 1,
-  'concluida' => ''
-);
-
 session_start();
 
 include 'banco.php';
 include 'helpers.php';
-$exibir_tabela = true;
+
+$exibir_tabela = false;
 
 if (isset($_GET['nome']) && $_GET['nome'] != '') {
   $tarefa = array();
@@ -31,14 +23,15 @@ if (isset($_GET['nome']) && $_GET['nome'] != '') {
   }
   $tarefa['prioridade'] = $_GET['prioridade'];
 
-
   if (isset($_GET['concluida'])) {
     $tarefa['concluida'] = 1;
   } else {
     $tarefa['concluida'] = 0;
   }
-  gravar_tarefas($conexao, $tarefa);
+  editar_tarefa($conexao, $tarefa);
 }
+$tarefa = buscar_tarefa($conexao, $_GET['id']);
 
-header('Location: index.php');
-exit;
+
+
+include 'index.php';
