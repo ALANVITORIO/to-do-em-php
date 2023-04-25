@@ -1,45 +1,29 @@
-<!DOCTYPE html>
+<?php
+include 'tarefas.php';
 
-<?php session_start();
-include 'banco.php';
-include 'helpers.php';
-
-
-$lista_tarefas = buscar_tarefa($conexao);
+$lista_tarefas = buscar_tarefas($conexao);
 ?>
-<html lang="en">
+
+<!DOCTYPE html>
+<html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>Document</title>
+  <meta charset="utf-8">
+  <title>Gerenciador de Tarefas</title>
+  <link rel="stylesheet" type="text/css" href="tarefas.css">
 </head>
 
 <body>
-  <h1>Gerenciador de tarefas</h1>
+  <h1>Gerenciador de Tarefas</h1>
+
   <?php include('formulario.php'); ?>
 
-  <?php if ($exibir_tabela) : ?>
+  <?php if (isset($exibir_tabela) && $exibir_tabela) : ?>
     <?php include('tabela.php'); ?>
+  <?php else : ?>
+    <a href="tarefas.php">Cancelar</a>
   <?php endif; ?>
+
 </body>
-
-<form action="processa_tarefa.php" method="GET">
-  <label>
-    Nome:
-    <input type="text" name="nome">
-  </label>
-  <label>
-    <p>Descrição</p>
-    <textarea name="descricao"></textarea>
-  </label>
-  <label>
-    <p>Prazo</p>
-    <input type="date" name="prazo">
-  </label>
-</form>
-
 
 </html>
