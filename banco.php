@@ -34,7 +34,7 @@ function buscar_tarefas($conexao)
 
 function gravar_tarefa($conexao, $tarefa)
 {
-  $sqlGravar = "INSERT INTO tarefas
+  $sqlGravar = "INSERT INTO tarefa
                   (nome, descricao, prioridade,prazo,concluida)
                   VALUES
                   (
@@ -51,13 +51,13 @@ function gravar_tarefa($conexao, $tarefa)
 
 function buscar_tarefa($conexao, $id)
 {
-  $sqlBusca = 'SELECT * FROM tarefas WHERE id = ' . $id;
+  $sqlBusca = 'SELECT * FROM tarefa WHERE id = ' . $id;
   $resultado = mysqli_query($conexao, $sqlBusca);
   return mysqli_fetch_assoc($resultado);
 }
 function editar_tarefa($conexao, $tarefa)
 {
-  $sql = "UPDATE tarefas SET
+  $sql = "UPDATE tarefa SET
             nome = '{$tarefa['nome']}',
             descricao = '{$tarefa['descricao']}',
             prioridade = {$tarefa['prioridade']},
@@ -69,7 +69,7 @@ function editar_tarefa($conexao, $tarefa)
 }
 function remover_tarefa($conexao, $id)
 {
-  $sql = "DELETE FROM tarefas WHERE id = {$id}";
+  $sql = "DELETE FROM tarefa WHERE id = {$id}";
 
   mysqli_query($conexao, $sql);
 }
